@@ -1,5 +1,7 @@
 // Simple FIFO with parametrizable depth and width
 
+`include "memDP.sv"
+
 module FIFO #(
     parameter DEPTH = 16,
     parameter WIDTH = 32,

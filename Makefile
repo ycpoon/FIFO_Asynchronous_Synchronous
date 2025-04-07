@@ -86,8 +86,8 @@ synth/%_svsim.sv: synth/%.vg ;
 ####################################
 
 # TODO: Add sources and testbenches
-TESTBENCH   = axi_stream_interconnect_tb.sv
-SOURCES     = axi_stream_interconnect.sv encoder.sv psel_gen.sv FIFO.sv memDP.sv
+TESTBENCH   = FIFO_test.sv FIFO_sva.svh
+SOURCES     = FIFO.sv memDP.sv
 HEADERS     = 
 
 # the .vg rule is automatically generated below when the name of the file matches its top level module
