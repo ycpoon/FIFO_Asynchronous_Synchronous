@@ -8,7 +8,7 @@ module FIFO_sva
   #(parameter DEPTH = 32, 
     parameter WIDTH = 16,
     parameter MAX_CNT = 3,
-    localparam CNT_BITS = $clog2(MAX_CNT+1)
+    parameter CNT_BITS = $clog2(MAX_CNT+1)
   )(
     input                clock, reset,
     input                wr_en,
@@ -22,7 +22,7 @@ module FIFO_sva
 );
 
     logic [$clog2(DEPTH+1)-1:0] entries;    // how full the buffer should be
-    int                        rd_count;   // number of reads complete
+    //int                        rd_count;   // number of reads complete
 
     logic rd_valid_c, wr_valid_c;
 

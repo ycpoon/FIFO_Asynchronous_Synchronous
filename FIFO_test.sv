@@ -2,18 +2,23 @@
 // This module generates the test vectors
 // Correctness checking is in FIFO_sva.svh
 
-`include "sys_defs.svh"
-`include "FIFO_sva.svh"
+`include "FIFO_sva.sv"
 
 module FIFO_test();
 
-    localparam CNT_BITS = $clog2(`MAX_CNT+1);
+
+    localparam DEPTH = 16;
+    localparam WIDTH = 32;
+    localparam MAX_CNT = 3;
+    localparam CLOCK_PERIOD = 10.0;
+
+    localparam CNT_BITS = $clog2(MAX_CNT+1);
 
     logic                clock, reset;
     logic                wr_en;
-    logic   [`WIDTH-1:0] wr_data;
+    logic   [WIDTH-1:0] wr_data;
     logic                rd_en;
-    logic   [`WIDTH-1:0] rd_data;
+    logic   [WIDTH-1:0] rd_data;
     logic                rd_valid;
     logic                wr_valid;
     logic [CNT_BITS-1:0] spots;
@@ -22,13 +27,10 @@ module FIFO_test();
     // variable to count values written to FIFO
     int cnt;
 
-    // INSTANCE is from the sys_defs.svh file
-    // it renames the module if SYNTH is defined in
-    // order to rename the module to FIFO_svsim
-    `INSTANCE(FIFO) #(
-        .DEPTH(`DEPTH),
-        .WIDTH(`WIDTH),
-        .MAX_CNT(`MAX_CNT))
+    FIFO #(
+        .DEPTH(DEPTH),
+        .WIDTH(WIDTH),
+        .MAX_CNT(MAX_CNT))
     dut (
         .clock    (clock),
         .reset    (reset),
@@ -43,13 +45,13 @@ module FIFO_test();
     );
 
     bind dut FIFO_sva #(
-        .DEPTH(`DEPTH),
-        .WIDTH(`WIDTH),
-        .MAX_CNT(`MAX_CNT)
+        .DEPTH(DEPTH),
+        .WIDTH(WIDTH),
+        .MAX_CNT(MAX_CNT)
     ) DUT_sva (.*);
 
     always begin
-        #(`CLOCK_PERIOD/2) clock = ~clock;
+        #(CLOCK_PERIOD/2) clock = ~clock;
     end
 
     // Generate random numbers for our write data on each cycle
